@@ -10,16 +10,28 @@ class App extends Component {
 			{ name: 'John', age: 28},
 			{ name: 'Tim', age: 24},
 			{ name: 'Tom', age: 29}
-		]
+		],
+		otherstate: 'This will not be changed by the onClick event handler'
+	}
+
+	//Defines the function that will be called when clicking the button, this is a method of the class, it is assigned to the class as a property (as a variable), if we dont use this syntax there will be issues when calling "this.switchNameHandler" as "this" wont refer to the class ("App") -> property ("switchNameHandler"); this.state.persons[0].name = 'Sam'; - we are not allowed to mutate state like this
+	switchNameHandler = () => {
+		this.setState({
+			persons: [
+				{ name: 'Sam', age: 38},
+				{ name: 'Tim', age: 54},
+				{ name: 'Jane', age: 31}
+			]
+		});
 	}
 
 	//"render()" - React will call this method to render something to the screen, "<div>" this is JSX not HTML; "className" - we use this instead of "class" (for CSS) bcause we use "class" when defining our component; "<Person> </Person>" - everything side of our component tags will be passed as "children" to our component; <div className="App"> - everything must be wrapped in one root element;
-	//"this.state.persons[0].name" - refers to the class "App" -> state property (object) -> persons array -> index 0 -> name ('Max')
+	//"this.state.persons[0].name" - refers to the class "App" -> state property (object) -> persons array -> index 0 -> name ('Max'); "onClick()" - in JSX we use a captial "C" for click; "this.switchNameHandler" - we dont include (), if we did it would mean React would execute it immediately after the DOM was rendered
 	render() {
 		return (
 			<div className="App">
 				<h1>Hi im a react app </h1>
-				<button>Switch Name</button>
+				<button onClick={this.switchNameHandler}>Switch Name</button>
 				<Person name={this.state.persons[0].name} age={this.state.persons[0].age}/>
 				<Person name={this.state.persons[1].name} age={this.state.persons[1].age}/>
 				<Person name={this.state.persons[2].name} age={this.state.persons[2].age}/>
