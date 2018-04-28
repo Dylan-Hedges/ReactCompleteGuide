@@ -37,10 +37,21 @@ nameChangedHandler = (event) => {
 	//"render()" - React will call this method to render something to the screen, "<div>" this is JSX not HTML; "className" - we use this instead of "class" (for CSS) bcause we use "class" when defining our component; "<Person> </Person>" - everything side of our component tags will be passed as "children" to our component; <div className="App"> - everything must be wrapped in one root element; "this.state.persons[0].name" - refers to the class "App" -> state property (object) -> persons array -> index 0 -> name ('Max'); "onClick()" - in JSX we use a captial "C" for click; //"this.switchNameHandler" - we dont include (), if we did it would mean React would execute it immediately after the DOM was rendered; click={this.switchNameHandler} - this is a method that we pass to the functional component in Person.js, we can then use this method in Person.js by accessing its props;
 	//"this.switchNameHandler.bind(this, 'Max!')" - pass in value to our function to change the name, ".bind(this, )" resolves the ".this" issue, needed so that our "switchNameHandler" function ".this" refers to the "render(){}""; "() => this.switchNameHandler()" - alternative method (not preferred) to passing values to our function, executes a function and returns the result (a name in this case), a "return" keyword will be automatically added if the function is written all in 1 line
 	render() {
+		//Inline styling
+		const style = {
+			backgroundColor: 'white',
+			font: 'inhert',
+			border: '1px solid blue',
+			padding: '8px',
+			cursor: 'pointer'
+		};
 		return (
 			<div className="App">
 				<h1>Hi im a react app </h1>
-				<button onClick={() => this.switchNameHandler('Maximilian!!')}>Switch Name</button>
+				<button
+				 	style={style}
+					onClick={() => this.switchNameHandler('Maximilian!!')}>Switch Name
+				</button>
 				<Person
 					name={this.state.persons[0].name}
 					age={this.state.persons[0].age}/>
