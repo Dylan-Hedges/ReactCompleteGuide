@@ -15,8 +15,14 @@ class App extends Component {
 		showPersons: false
 	}
 
-deletePerson = () => {
-
+//Deletes clicked on person
+deletePersonHandler = (personIndex) => {
+	//Creates a new "persons array" - Fetches the persons array and stores in a variable, "..." the spread JS operator takes the elements from the "persons" piece of state (an array), turns it into a list of elements, then adds it to a new array ("const persons"), it is important we use this method (create a copy first) and not mutate the original state directly as it can cause isses when developing our app
+	const persons = [...this.state.persons];
+	//Removes 1 element from the new array
+	persons.splice(personIndex, 1);
+	//Updates the state ("persons") with the new array - component is rerendered
+	this.setState({persons: persons})
 }
 
 //Changes the name when typing in the input field - "(event)" - default object that is automatically passed into the function by React; "event.target.value" - the input the user has typed
@@ -29,7 +35,7 @@ nameChangedHandler = (event) => {
 		]
 	});
 }
-//Changes showPersons between true and false, if it is true change to false and vice versa; If we dont use the arrow funcion we may have issues with the .this keyword
+//Toggles "showPersons" between true and false - applied to button, if it is true change to false and vice versa; If we dont use the arrow funcion we may have issues with the .this keyword
 togglePersonsHandler = () => {
 	const doesShow = this.state.showPersons;
 	this.setState({showPersons: !doesShow});
@@ -49,12 +55,12 @@ togglePersonsHandler = () => {
 		//Determines if names should be displayed on screen - As React rerenders the component on a state change (e.g if we click a buttton), it will execute this if statement again
 		let persons = null;
 		if (this.state.showPersons) {
-			//Turns are state into JSX - maps every element in an array into something else, executes a method on every element in an array, takes the value of each element as input, does something to it (e.g turn it into JSX) and returns a new array
+			//Turns are state into JSX - maps every element in an array into something else, executes a method on every element in an array, takes the value of each element as input, does something to it (e.g turn it into JSX) and returns a new array; (person, index) - passes content of element AND index number to the function, if you use more than one argument in an ES6 arrow function you have to wrap in "()"
 			persons = (
 				<div>
-					{this.state.persons.map (person => {
+					{this.state.persons.map ((person, index) => {
 						return <Person
-							click={this.deletePersonHandler}
+							click={() => this.deletePersonHandler(index)}
 							name={person.name}
 							age={person.age}/>
 					})}
