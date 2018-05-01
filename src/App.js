@@ -15,16 +15,10 @@ class App extends Component {
 		showPersons: false
 	}
 
-	//Changes the name when clicking - this function will be called when clicking the button/on text, this is a method of the class, it is assigned to the class as a property (as a variable), if we dont use this syntax there will be issues when calling "this.switchNameHandler" as "this" wont refer to the class ("App") -> property ("switchNameHandler"); this.state.persons[0].name = 'Sam'; - we are not allowed to mutate state like this
-	switchNameHandler = (newName) => {
-		this.setState({
-			persons: [
-				{ name: newName, age: 38},
-				{ name: 'Tim', age: 54},
-				{ name: 'Jane', age: 31}
-			]
-		});
-	}
+deletePerson = () => {
+
+}
+
 //Changes the name when typing in the input field - "(event)" - default object that is automatically passed into the function by React; "event.target.value" - the input the user has typed
 nameChangedHandler = (event) => {
 	this.setState({
@@ -55,21 +49,15 @@ togglePersonsHandler = () => {
 		//Determines if names should be displayed on screen - As React rerenders the component on a state change (e.g if we click a buttton), it will execute this if statement again
 		let persons = null;
 		if (this.state.showPersons) {
-			persons =(
+			//Turns are state into JSX - maps every element in an array into something else, executes a method on every element in an array, takes the value of each element as input, does something to it (e.g turn it into JSX) and returns a new array
+			persons = (
 				<div>
-					<Person
-						name={this.state.persons[0].name}
-						age={this.state.persons[0].age}/>
-					<Person
-						name={this.state.persons[1].name}
-						age={this.state.persons[1].age}
-						click={this.switchNameHandler.bind(this, 'Max!')}
-						changed={this.nameChangedHandler}
-						>Hobby: Diving
-					</Person>
-					<Person
-						name={this.state.persons[2].name}
-						age={this.state.persons[2].age}/>
+					{this.state.persons.map (person => {
+						return <Person
+							click={this.deletePersonHandler}
+							name={person.name}
+							age={person.age}/>
+					})}
 				</div>
 			);
 		}
