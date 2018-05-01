@@ -11,7 +11,8 @@ class App extends Component {
 			{ name: 'Tim', age: 24},
 			{ name: 'Tom', age: 29}
 		],
-		otherstate: 'This will not be changed by the onClick event handler'
+		otherstate: 'This will not be changed by the onClick event handler',
+		showPersons: false
 	}
 
 	//Changes the name when clicking - this function will be called when clicking the button/on text, this is a method of the class, it is assigned to the class as a property (as a variable), if we dont use this syntax there will be issues when calling "this.switchNameHandler" as "this" wont refer to the class ("App") -> property ("switchNameHandler"); this.state.persons[0].name = 'Sam'; - we are not allowed to mutate state like this
@@ -34,6 +35,11 @@ nameChangedHandler = (event) => {
 		]
 	});
 }
+//Changes showPersons between true and false, if it is true change to false and vice versa; If we dont use the arrow funcion we may have issues with the .this keyword
+togglePersonsHandler = () => {
+	const doesShow = this.state.showPersons;
+	this.setState({showPersons: !doesShow});
+}
 	//"render()" - React will call this method to render something to the screen, "<div>" this is JSX not HTML; "className" - we use this instead of "class" (for CSS) bcause we use "class" when defining our component; "<Person> </Person>" - everything side of our component tags will be passed as "children" to our component; <div className="App"> - everything must be wrapped in one root element; "this.state.persons[0].name" - refers to the class "App" -> state property (object) -> persons array -> index 0 -> name ('Max'); "onClick()" - in JSX we use a captial "C" for click; //"this.switchNameHandler" - we dont include (), if we did it would mean React would execute it immediately after the DOM was rendered; click={this.switchNameHandler} - this is a method that we pass to the functional component in Person.js, we can then use this method in Person.js by accessing its props;
 	//"this.switchNameHandler.bind(this, 'Max!')" - pass in value to our function to change the name, ".bind(this, )" resolves the ".this" issue, needed so that our "switchNameHandler" function ".this" refers to the "render(){}""; "() => this.switchNameHandler()" - alternative method (not preferred) to passing values to our function, executes a function and returns the result (a name in this case), a "return" keyword will be automatically added if the function is written all in 1 line
 	render() {
@@ -45,26 +51,37 @@ nameChangedHandler = (event) => {
 			padding: '8px',
 			cursor: 'pointer'
 		};
+
+		//Determines if names should be displayed on screen - As React rerenders the component on a state change (e.g if we click a buttton), it will execute this if statement again
+		let persons = null;
+		if (this.state.showPersons) {
+			persons =(
+				<div>
+					<Person
+						name={this.state.persons[0].name}
+						age={this.state.persons[0].age}/>
+					<Person
+						name={this.state.persons[1].name}
+						age={this.state.persons[1].age}
+						click={this.switchNameHandler.bind(this, 'Max!')}
+						changed={this.nameChangedHandler}
+						>Hobby: Diving
+					</Person>
+					<Person
+						name={this.state.persons[2].name}
+						age={this.state.persons[2].age}/>
+				</div>
+			);
+		}
+		// return () - everything inside of the return statement is JSX code; {} - by wrapping the JSX in curley braces we can execute simple JS statements (not block statements e.g if statements); this.state.showPersons === true ? : null - ternary expression, if show persons is true, display the JSX, if not show nothing (null)
 		return (
 			<div className="App">
 				<h1>Hi im a react app </h1>
 				<button
 				 	style={style}
-					onClick={() => this.switchNameHandler('Maximilian!!')}>Switch Name
+					onClick={this.togglePersonsHandler}>Switch Name
 				</button>
-				<Person
-					name={this.state.persons[0].name}
-					age={this.state.persons[0].age}/>
-				<Person
-					name={this.state.persons[1].name}
-					age={this.state.persons[1].age}
-					click={this.switchNameHandler.bind(this, 'Max!')}
-					changed={this.nameChangedHandler}
-					>Hobby: Diving
-				</Person>
-				<Person
-					name={this.state.persons[2].name}
-					age={this.state.persons[2].age}/>
+				{persons}
 			</div>
 		);
 	}
