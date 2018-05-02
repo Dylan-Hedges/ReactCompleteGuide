@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import classes from './App.css';
 //Allows us to apply styling not available in React (e.g CSS sudo selectors, media queries :hover)
 //import Radium, { StyleRoot } from 'radium';
 //Components should always start with an uppercase letter
@@ -80,20 +80,20 @@ togglePersonsHandler = () => {
 		}
 
 		//String of our App.css classes - Takes our App.css classes and puts them in a list
-		let classes = [];
+		let assignedClasses = [];
 		//If there are 2 people or less - apply red
 		if (this.state.persons.length <=2){
-			classes.push('red'); //['red']
+			assignedClasses.push(classes.red); //['red']
 		}
 		//If there is 1 person or less - apply bold
 		if (this.state.persons.length <=1){
-			classes.push('bold'); //['red', 'bold']
+			assignedClasses.push(classes.bold); //['red', 'bold']
 		}
 		//return () - everything inside of the return statement is JSX code; {} - by wrapping the JSX in curley braces we can execute simple JS statements (not block statements e.g if statements); this.state.showPersons === true ? : null - ternary expression, if show persons is true, display the JSX, if not show nothing (null); ".join(' ')" joins ['red'] and ['bold'] strings with an empty space to form 'red bold'; <StyleRoot> - Radium, have to wrap our entire application at the ROOT component using <StyleRoot> when applying styling such as media queries
 		return (
-				<div className="App">
+				<div className={classes.App}>
 					<h1>Hi im a react app </h1>
-					<p className={classes.join(' ')}>This is working</p>
+					<p className={assignedClasses.join(' ')}>This is working</p>
 					<button
 					 	style={style}
 						onClick={this.togglePersonsHandler}>Switch Name
