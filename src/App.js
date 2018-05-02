@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
 import './App.css';
+//Allows us to apply styling not available in React (e.g CSS sudo selectors, media queries :hover)
+import Radium from 'radium';
 //Components should always start with an uppercase letter
 import Person from './Person/Person'
+
 //Creates a JS class and inherit from the Component class (from the 'react' library);
 class App extends Component {
 	//"state" - props are set and passed in from the outside into a component (e.g name, age -> Person component), state is only available inside the component and only available in components that "extends Component" (not availble in functional components); "persons" - we create a property consistsing of an array inside the state object (properties are essentially variables attached to the class), when we change the state the DOM is re-rendered
@@ -49,11 +52,16 @@ togglePersonsHandler = () => {
 	render() {
 		//Inline styling
 		const style = {
-			backgroundColor: 'white',
+			backgroundColor: 'green',
 			font: 'inhert',
 			border: '1px solid blue',
 			padding: '8px',
-			cursor: 'pointer'
+			cursor: 'pointer',
+			//Radium
+			':hover': {
+				backgroundColor: 'lightgreen',
+				color: 'black'
+			}
 		};
 
 		//Determines if names should be displayed on screen - As React rerenders the component on a state change (e.g if we click a buttton), it will execute this if statement again
@@ -73,11 +81,29 @@ togglePersonsHandler = () => {
 					})}
 				</div>
 			);
+			style.backgroundColor = 'red';
+			//Radium
+			style[':hover'] = {
+				backgroundColor: 'salmon',
+				color: 'black'
+			}
 		}
-		// return () - everything inside of the return statement is JSX code; {} - by wrapping the JSX in curley braces we can execute simple JS statements (not block statements e.g if statements); this.state.showPersons === true ? : null - ternary expression, if show persons is true, display the JSX, if not show nothing (null)
+
+		//String of our App.css classes - Takes our App.css classes and puts them in a list
+		let classes = [];
+		//If there are 2 people or less - apply red
+		if (this.state.persons.length <=2){
+			classes.push('red'); //['red']
+		}
+		//If there is 1 person or less - apply bold
+		if (this.state.persons.length <=1){
+			classes.push('bold'); //['red', 'bold']
+		}
+		//return () - everything inside of the return statement is JSX code; {} - by wrapping the JSX in curley braces we can execute simple JS statements (not block statements e.g if statements); this.state.showPersons === true ? : null - ternary expression, if show persons is true, display the JSX, if not show nothing (null); ".join(' ')" joins ['red'] and ['bold'] strings with an empty space to form 'red bold'
 		return (
 			<div className="App">
 				<h1>Hi im a react app </h1>
+				<p className={classes.join(' ')}>This is working</p>
 				<button
 				 	style={style}
 					onClick={this.togglePersonsHandler}>Switch Name
@@ -88,5 +114,5 @@ togglePersonsHandler = () => {
 	}
 }
 
-//export default - if you import the whole file you import this class (ES6 feature)
-export default App;
+//export default - if you import the whole file you import this class (ES6 feature); Radium() - higher order component, package that advanced styling
+export default Radium(App);

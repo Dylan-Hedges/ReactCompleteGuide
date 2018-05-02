@@ -1,5 +1,6 @@
 //React - we import this so we can call React.createElement() to transform the JSX to HTML; We dont need {Component} because we are not using "class App extends Component" we are only creating a function
 import React from 'react';
+import Radium from 'radium';
 //Imports our .css file into our .js file - if we dont the styling will not be applied, Webpack allows us to import .css into JS (automatically generates and injects our <style> tags, CSS etc. into the files that will be read by the browser)
 import './Person.css';
 
@@ -16,4 +17,4 @@ const person = (props) => {
   )
 };
 
-export default person;
+export default Radium(person);
