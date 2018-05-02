@@ -7,12 +7,26 @@ class App extends Component {
 	//"state" - props are set and passed in from the outside into a component (e.g name, age -> Person component), state is only available inside the component and only available in components that "extends Component" (not availble in functional components); "persons" - we create a property consistsing of an array inside the state object (properties are essentially variables attached to the class), when we change the state the DOM is re-rendered
 	state = {
 		persons: [
-			{ name: 'John', age: 28},
-			{ name: 'Tim', age: 24},
-			{ name: 'Tom', age: 29}
+			{ id: '1',name: 'John', age: 28},
+			{ id: '2',name: 'Tim', age: 24},
+			{ id: '3',name: 'Tom', age: 29}
 		],
 		otherstate: 'This will not be changed by the onClick event handler',
 		showPersons: false
+	}
+
+	//Changes the name when typing in the input field - "(event)" - default object that is automatically passed into the function by React; "event.target.value" - the input the user has typed
+	nameChangedHandler = (event, id) => {
+		const personIndex = this.state.persons.findIndex(p => {
+			return p.id === id;
+		});
+		const person = {
+			...this.state.persons[personIndex]
+		};
+		person.name = event.target.value;
+		const persons =[...this.state.persons];
+		persons[personIndex] = person;
+		this.setState( {persons:persons});
 	}
 
 //Deletes clicked on person
@@ -25,16 +39,6 @@ deletePersonHandler = (personIndex) => {
 	this.setState({persons: persons})
 }
 
-//Changes the name when typing in the input field - "(event)" - default object that is automatically passed into the function by React; "event.target.value" - the input the user has typed
-nameChangedHandler = (event) => {
-	this.setState({
-		persons: [
-			{ name: 'Max', age: 38},
-			{ name: event.target.value, age: 54},
-			{ name: 'Jane', age: 31}
-		]
-	});
-}
 //Toggles "showPersons" between true and false - applied to button, if it is true change to false and vice versa; If we dont use the arrow funcion we may have issues with the .this keyword
 togglePersonsHandler = () => {
 	const doesShow = this.state.showPersons;
@@ -55,14 +59,17 @@ togglePersonsHandler = () => {
 		//Determines if names should be displayed on screen - As React rerenders the component on a state change (e.g if we click a buttton), it will execute this if statement again
 		let persons = null;
 		if (this.state.showPersons) {
-			//Turns are state into JSX - maps every element in an array into something else, executes a method on every element in an array, takes the value of each element as input, does something to it (e.g turn it into JSX) and returns a new array; (person, index) - passes content of element AND index number to the function, if you use more than one argument in an ES6 arrow function you have to wrap in "()"
+			//Turns are state into JSX - maps every element in an array into something else, executes a method on every element in an array, takes the value of each element as input, does something to it (e.g turn it into JSX) and returns a new array; (person, index) - passes content of element AND index number to the function, if you use more than one argument in an ES6 arrow function you have to wrap in "()"; key={index} - helps React in deciding what to rerender, whenever we have a list React expects a key, React has a virtual DOM (what the DOM will look like once the methods etc. have been executed) this is compared to the DOM, when differences are found React knows to only rerender those components (keys make it easier for React to identify and compare elements for rerendering)
 			persons = (
 				<div>
 					{this.state.persons.map ((person, index) => {
 						return <Person
 							click={() => this.deletePersonHandler(index)}
 							name={person.name}
-							age={person.age}/>
+							age={person.age}
+							key={person.id}
+							changed={(event) => this.nameChangedHandler(event, person.id)}
+							/>
 					})}
 				</div>
 			);
