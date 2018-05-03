@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 //CSS Module - the "classes" object is a JS object that gives you access to a string version of your CSS class
 import classes from './App.css';
-//Allows us to apply styling not available in React (e.g CSS sudo selectors, media queries :hover)
-//import Radium, { StyleRoot } from 'radium';
 //Components should always start with an uppercase letter
 import Person from './Person/Person'
-
+import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
 //Creates a JS class and inherit from the Component class (from the 'react' library);
 class App extends Component {
 	//"state" - props are set and passed in from the outside into a component (e.g name, age -> Person component), state is only available inside the component and only available in components that "extends Component" (not availble in functional components); "persons" - we create a property consistsing of an array inside the state object (properties are essentially variables attached to the class), when we change the state the DOM is re-rendered
@@ -60,13 +58,14 @@ togglePersonsHandler = () => {
 			persons = (
 				<div>
 					{this.state.persons.map ((person, index) => {
-						return <Person
-							click={() => this.deletePersonHandler(index)}
-							name={person.name}
-							age={person.age}
-							key={person.id}
-							changed={(event) => this.nameChangedHandler(event, person.id)}
-							/>
+						return
+							<ErrorBoundary key={person.id}>
+								<Person
+									click={() => this.deletePersonHandler(index)}
+									name={person.name}
+									age={person.age}
+									changed={(event) => this.nameChangedHandler(event, person.id)}/>
+							</ErrorBoundary>
 					})}
 				</div>
 			);
