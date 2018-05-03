@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+//CSS Module - the "classes" object is a JS object that gives you access to a string version of your CSS class
 import classes from './App.css';
 //Allows us to apply styling not available in React (e.g CSS sudo selectors, media queries :hover)
 //import Radium, { StyleRoot } from 'radium';
@@ -50,17 +51,10 @@ togglePersonsHandler = () => {
 	//"render()" - React will call this method to render something to the screen, "<div>" this is JSX not HTML; "className" - we use this instead of "class" (for CSS) bcause we use "class" when defining our component; "<Person> </Person>" - everything side of our component tags will be passed as "children" to our component; <div className="App"> - everything must be wrapped in one root element; "this.state.persons[0].name" - refers to the class "App" -> state property (object) -> persons array -> index 0 -> name ('Max'); "onClick()" - in JSX we use a captial "C" for click; //"this.switchNameHandler" - we dont include (), if we did it would mean React would execute it immediately after the DOM was rendered; click={this.switchNameHandler} - this is a method that we pass to the functional component in Person.js, we can then use this method in Person.js by accessing its props;
 	//"this.switchNameHandler.bind(this, 'Max!')" - pass in value to our function to change the name, ".bind(this, )" resolves the ".this" issue, needed so that our "switchNameHandler" function ".this" refers to the "render(){}""; "() => this.switchNameHandler()" - alternative method (not preferred) to passing values to our function, executes a function and returns the result (a name in this case), a "return" keyword will be automatically added if the function is written all in 1 line
 	render() {
-		//Inline styling
-		const style = {
-			backgroundColor: 'green',
-			font: 'inhert',
-			border: '1px solid blue',
-			padding: '8px',
-			cursor: 'pointer',
-		};
-
 		//Determines if names should be displayed on screen - As React rerenders the component on a state change (e.g if we click a buttton), it will execute this if statement again
 		let persons = null;
+		let btnClass = '';
+
 		if (this.state.showPersons) {
 			//Turns are state into JSX - maps every element in an array into something else, executes a method on every element in an array, takes the value of each element as input, does something to it (e.g turn it into JSX) and returns a new array; (person, index) - passes content of element AND index number to the function, if you use more than one argument in an ES6 arrow function you have to wrap in "()"; key={index} - helps React in deciding what to rerender, whenever we have a list React expects a key, React has a virtual DOM (what the DOM will look like once the methods etc. have been executed) this is compared to the DOM, when differences are found React knows to only rerender those components (keys make it easier for React to identify and compare elements for rerendering)
 			persons = (
@@ -76,7 +70,7 @@ togglePersonsHandler = () => {
 					})}
 				</div>
 			);
-			style.backgroundColor = 'red';
+			btnClass = classes.Red;
 		}
 
 		//String of our App.css classes - Takes our App.css classes and puts them in a list
@@ -95,7 +89,7 @@ togglePersonsHandler = () => {
 					<h1>Hi im a react app </h1>
 					<p className={assignedClasses.join(' ')}>This is working</p>
 					<button
-					 	style={style}
+					className={btnClass}
 						onClick={this.togglePersonsHandler}>Switch Name
 					</button>
 					{persons}
