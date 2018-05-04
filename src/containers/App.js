@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 //CSS Module - the "classes" object is a JS object that gives you access to a string version of your CSS class
 import classes from './App.css';
 //Components should always start with an uppercase letter
-import Person from './Person/Person'
-import ErrorBoundary from './ErrorBoundary/ErrorBoundary';
+import Persons from '../components/Persons/Persons'
+
+
 //Creates a JS class and inherit from the Component class (from the 'react' library);
 class App extends Component {
 	//"state" - props are set and passed in from the outside into a component (e.g name, age -> Person component), state is only available inside the component and only available in components that "extends Component" (not availble in functional components); "persons" - we create a property consistsing of an array inside the state object (properties are essentially variables attached to the class), when we change the state the DOM is re-rendered
@@ -54,19 +55,13 @@ togglePersonsHandler = () => {
 		let btnClass = '';
 
 		if (this.state.showPersons) {
-			//Turns are state into JSX - maps every element in an array into something else, executes a method on every element in an array, takes the value of each element as input, does something to it (e.g turn it into JSX) and returns a new array; (person, index) - passes content of element AND index number to the function, if you use more than one argument in an ES6 arrow function you have to wrap in "()"; key={index} - helps React in deciding what to rerender, whenever we have a list React expects a key, React has a virtual DOM (what the DOM will look like once the methods etc. have been executed) this is compared to the DOM, when differences are found React knows to only rerender those components (keys make it easier for React to identify and compare elements for rerendering)
 			persons = (
 				<div>
-					{this.state.persons.map ((person, index) => {
-						return
-							<ErrorBoundary key={person.id}>
-								<Person
-									click={() => this.deletePersonHandler(index)}
-									name={person.name}
-									age={person.age}
-									changed={(event) => this.nameChangedHandler(event, person.id)}/>
-							</ErrorBoundary>
-					})}
+					<Persons
+						persons={this.state.persons}
+						clicked={this.deletePersonHandler}
+						changed={this.nameChangedHandler}
+					/>
 				</div>
 			);
 			btnClass = classes.Red;
