@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 //CSS Module - the "classes" object is a JS object that gives you access to a string version of your CSS class
 import classes from './App.css';
 //Components should always start with an uppercase letter
-import Persons from '../components/Persons/Persons'
-
+import Persons from '../components/Persons/Persons';
+import Cockpit from '../components/Cockpit/Cockpit';
 
 //Creates a JS class and inherit from the Component class (from the 'react' library);
 class App extends Component {
@@ -56,36 +56,23 @@ togglePersonsHandler = () => {
 
 		if (this.state.showPersons) {
 			persons = (
-				<div>
 					<Persons
 						persons={this.state.persons}
 						clicked={this.deletePersonHandler}
 						changed={this.nameChangedHandler}
 					/>
-				</div>
 			);
-			btnClass = classes.Red;
 		}
 
-		//String of our App.css classes - Takes our App.css classes and puts them in a list
-		let assignedClasses = [];
-		//If there are 2 people or less - apply red
-		if (this.state.persons.length <=2){
-			assignedClasses.push(classes.red); //['red']
-		}
-		//If there is 1 person or less - apply bold
-		if (this.state.persons.length <=1){
-			assignedClasses.push(classes.bold); //['red', 'bold']
-		}
+
 		//return () - everything inside of the return statement is JSX code; {} - by wrapping the JSX in curley braces we can execute simple JS statements (not block statements e.g if statements); this.state.showPersons === true ? : null - ternary expression, if show persons is true, display the JSX, if not show nothing (null); ".join(' ')" joins ['red'] and ['bold'] strings with an empty space to form 'red bold'; <StyleRoot> - Radium, have to wrap our entire application at the ROOT component using <StyleRoot> when applying styling such as media queries
 		return (
 				<div className={classes.App}>
-					<h1>Hi im a react app </h1>
-					<p className={assignedClasses.join(' ')}>This is working</p>
-					<button
-					className={btnClass}
-						onClick={this.togglePersonsHandler}>Switch Name
-					</button>
+					<Cockpit
+						showPersons={this.state.showPersons}
+						persons={this.state.persons}
+						clicked={this.togglePersonsHandler}
+					/>
 					{persons}
 				</div>
 		);
