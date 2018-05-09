@@ -65,10 +65,11 @@ togglePersonsHandler = () => {
 		}
 
 
-		//return () - everything inside of the return statement is JSX code; {} - by wrapping the JSX in curley braces we can execute simple JS statements (not block statements e.g if statements); this.state.showPersons === true ? : null - ternary expression, if show persons is true, display the JSX, if not show nothing (null); ".join(' ')" joins ['red'] and ['bold'] strings with an empty space to form 'red bold'; <StyleRoot> - Radium, have to wrap our entire application at the ROOT component using <StyleRoot> when applying styling such as media queries
+		//return () - everything inside of the return statement is JSX code; {} - by wrapping the JSX in curley braces we can execute simple JS statements (not block statements e.g if statements); this.state.showPersons === true ? : null - ternary expression, if show persons is true, display the JSX, if not show nothing (null); ".join(' ')" joins ['red'] and ['bold'] strings with an empty space to form 'red bold'; <StyleRoot> - Radium, have to wrap our entire application at the ROOT component using <StyleRoot> when applying styling such as media queries; "appTitle={this.props.title}" - title passed in from index.js, we cant just use "props.title" as this would refer to the "render()" function which does not have any values passed in, by using ".this" we refer to the "class App component" which has props passed to it from "index.js"
 		return (
 				<div className={classes.App}>
 					<Cockpit
+						appTitle={this.props.title}
 						showPersons={this.state.showPersons}
 						persons={this.state.persons}
 						clicked={this.togglePersonsHandler}

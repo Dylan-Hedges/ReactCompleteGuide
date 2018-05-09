@@ -16,9 +16,10 @@ const cockpit = (props) => {
   if (props.persons.length <=1){
     assignedClasses.push(classes.bold); //['red', 'bold']
   }
+  //"{props.appTitle}" this is passed in from "index.js" -> "app.js" -> "cockpit.js" (under the "(props)" object)
   return (
     <div className={classes.Cockpit}>
-      <h1>Hi im a react app </h1>
+      <h1>{props.appTitle}</h1>
       <p className={assignedClasses.join(' ')}>This is working</p>
       <button
         className={btnClass}
