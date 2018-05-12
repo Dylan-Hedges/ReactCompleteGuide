@@ -1,5 +1,8 @@
 import React from 'react';
 import classes from './Cockpit.css';
+//Alternative to <div> - blank wrapping component (no styling) that we put our JSX inside; in React 16.2 you can use "<>" "</>" which achives the same result
+import Aux from '../../hoc/Aux_file';
+
 
 const cockpit = (props) => {
   //String of our App.css classes - Takes our App.css classes and puts them in a list
@@ -18,14 +21,16 @@ const cockpit = (props) => {
   }
   //"{props.appTitle}" this is passed in from "index.js" -> "app.js" -> "cockpit.js" (under the "(props)" object)
   return (
-    <div className={classes.Cockpit}>
-      <h1>{props.appTitle}</h1>
-      <p className={assignedClasses.join(' ')}>This is working</p>
-      <button
-        className={btnClass}
-        onClick={props.clicked}>Switch Name
-      </button>
-    </div>
+    <Aux>
+      <div className={classes.Cockpit}>
+        <h1>{props.appTitle}</h1>
+        <p className={assignedClasses.join(' ')}>This is working</p>
+        <button
+          className={btnClass}
+          onClick={props.clicked}>Switch Name
+        </button>
+      </div>
+    </Aux>
   );
 };
 
